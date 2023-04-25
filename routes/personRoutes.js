@@ -4,7 +4,7 @@ const router = express.Router();
 const personController = require('../controllers/personController');
 
 // Create a person using their general information
-router.post('/person', personController.createUsingGeneralInfo);
+router.post('/person/general', personController.createUsingGeneralInfo);
 
 // Add qualifications to a person
 router.put('/person/qualifications', personController.addQualifications);

@@ -4,13 +4,13 @@ exports.createUsingGeneralInfo = async (req, res) => {
     try {
         const person = new Person({
             name: req.body.name,
-            parentage: req.body.parentage,
+            parentAge: req.body.parentAge,
             age: req.body.age,
             email: req.body.email
         });
 
         await person.save();
-        res.status(201).send({ message: 'Person created successfully with y.' });
+        res.status(201).send({ message: 'Person created successfully with general information only' });
     } catch (err) {
         res.status(500).send({ message: err.message });
     }
@@ -19,9 +19,10 @@ exports.createUsingGeneralInfo = async (req, res) => {
 exports.addQualifications = async (req, res) => {
     try {
         const { email } = req.body;
-        const qualifications = req.body.qualifications;
+        const courseName = req.body.courseName;
+        const courseCompletedYear = req.body.courseCompletedYear;
 
-        const person = await Person.findOneAndUpdate({ email }, { qualifications });
+        const person = await Person.findOneAndUpdate({ email }, { courseName, courseCompletedYear });
 
         if (!person) {
             res.status(404).send({ message: 'Person not found.' });
@@ -55,9 +56,9 @@ exports.addPersonalInfo = async (req, res) => {
 exports.getPersonByEmail = async (req, res) => {
     try {
         const { email } = req.params;
-
+        console.log("emailgurjas",email);
         const person = await Person.findOne({ email });
-
+        console.log("Person",person)
         if (!person) {
             res.status(404).send({ message: 'Person not found.' });
         } else {
@@ -78,8 +79,8 @@ exports.getGeneralInfo = async (req, res) => {
         } else if (email) {
             query = { email:email };
         }
-        console.log("query",query);
-        const person = await Person.findOne(query, { name: 1, parentage: 1, age: 1, email: 1 });
+        // console.log("query",query);
+        const person = await Person.findOne(query, { name: 1, parentage: 1, age: 1, email: 1 , _id:0});
 
         if (!person) {
             res.status(404).send({ message: 'Person not found.' });
@@ -102,7 +103,7 @@ exports.getEducationalInfo = async (req, res) => {
             query = { email:email };
         }
 
-        const person = await Person.findOne(query, { qualifications: 1 });
+        const person = await Person.findOne(query, { courseName: 1, courseCompletedYear: 1 , _id:0 });
 
         if (!person) {
             res.status(404).send({ message: 'Person not found.' });
@@ -120,9 +121,6 @@ exports.getPersonalInfo = async (req, res) => {
         const id = req.params.id;
         const email = req.params.email;
         let person;
-        console.log("email---------------",email);
-        console.log("id-------------",id)
-
 
         if (id) {
             person = await Person.findById(id);
@@ -145,7 +143,6 @@ exports.getPersonalInfo = async (req, res) => {
 
         res.status(200).json(personalInfo);
     } catch (error) {
-        console.log("hellooo----------------------");
         res.status(500).json({ message: 'Server Error' });
     }
 };

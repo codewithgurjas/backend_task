@@ -4,8 +4,8 @@ const personSchema = new mongoose.Schema({
     name: {
         type: String,
     },
-    parentage: {
-        type: String,
+    parentAge: {
+        type: Number,
     },
     age: {
         type: Number,
@@ -14,7 +14,12 @@ const personSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    qualifications: [String],
+    courseName: {
+        type : String,
+    },
+    courseCompletedYear: {
+        type: Number,
+    },
     gender: {
         type: String,
         enum: ['Male', 'Female', 'Other']

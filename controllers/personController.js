@@ -56,9 +56,7 @@ exports.addPersonalInfo = async (req, res) => {
 exports.getPersonByEmail = async (req, res) => {
     try {
         const { email } = req.params;
-        console.log("emailgurjas",email);
         const person = await Person.findOne({ email });
-        console.log("Person",person)
         if (!person) {
             res.status(404).send({ message: 'Person not found.' });
         } else {
@@ -79,7 +77,6 @@ exports.getGeneralInfo = async (req, res) => {
         } else if (email) {
             query = { email:email };
         }
-        // console.log("query",query);
         const person = await Person.findOne(query, { name: 1, parentage: 1, age: 1, email: 1 , _id:0});
 
         if (!person) {
@@ -111,7 +108,6 @@ exports.getEducationalInfo = async (req, res) => {
             res.status(200).send(person);
         }
     } catch (err) {
-        console.log("hello");
         res.status(500).send({ message: err.message });
     }
 };

@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
+const { config } = require('dotenv')
 
-module.exports.connection=function(){
-    mongoose.connect('mongodb+srv://m001-student:m001-mongodb-basics@sandbox.4kfw6ng.mongodb.net/?retryWrites=true&w=majority') .then(function() {
-        console.log("mongo is connected") 
+config()
+
+module.exports.connection = function () 
+{
+    mongoose.connect(process.env.MONGOURI).then(function () {
+        console.log("mongo is connected")
     })
-    .catch(function(err) {
-        console.log(err+"error occurred") })
+    .catch(function (err) {
+        console.log(err + "error occurred")
+    })
 }
